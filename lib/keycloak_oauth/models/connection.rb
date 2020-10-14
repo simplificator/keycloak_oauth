@@ -12,9 +12,9 @@ module KeycloakOauth
         @client_secret = client_secret
       end
 
-      def authorization_endpoint(options)
+      def authorization_endpoint(options: {})
         endpoint = "#{auth_url}/realms/#{realm}/protocol/openid-connect/auth?client_id=#{client_id}"
-        endpoint += "&response_type=#{options[:response_code] || DEFAULT_RESPONSE_TYPE}"
+        endpoint += "&response_type=#{options[:response_type] || DEFAULT_RESPONSE_TYPE}"
       end
     end
   end
