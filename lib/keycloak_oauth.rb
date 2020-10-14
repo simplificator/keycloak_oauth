@@ -1,7 +1,6 @@
 require 'keycloak_oauth/version'
 require 'keycloak_oauth/models/configuration'
 require 'keycloak_oauth/models/connection'
-require 'byebug'
 
 module KeycloakOauth
   def self.configure

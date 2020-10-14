@@ -26,7 +26,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  byebug
   keycloak_oauth!
   rake (~> 12.0)
   rspec (~> 3.0)
