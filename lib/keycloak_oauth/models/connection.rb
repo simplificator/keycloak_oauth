@@ -1,7 +1,7 @@
 module KeycloakOauth
   module Models
     class Connection
-      attr_accessor :auth_url, :realm, :client_id, :client_secret
+      attr_reader :auth_url, :realm, :client_id, :client_secret
 
       DEFAULT_RESPONSE_TYPE = 'code'.freeze
 
