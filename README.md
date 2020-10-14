@@ -22,7 +22,21 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Using `keycloak_oauth` in a Ruby on Rails app
+
+The configuration must be defined in the app by initialising the relevant attributes within a configuration block. For example, you could add an initializer script called `keycloak_oauth.rb` holding the following code:
+
+```ruby
+KeycloakOauth.configure do |config|
+  config.auth_url = 'TBA' # (you could reference a Rails credential here for example)
+  config.realm = 'TBA'
+  config.client_id = 'TBA'
+  config.client_secret = 'TBA'
+end
+```
+
+This then allows you to access the `KeycloakOauth` APIs:
+`KeycloakOauth.connection.authorization_endpoint`
 
 ## Development
 
