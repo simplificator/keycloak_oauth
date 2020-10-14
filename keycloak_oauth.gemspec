@@ -7,11 +7,11 @@ Gem::Specification.new do |spec|
   spec.email         = ["dev@simplificator.com"]
 
   spec.summary       = %q{Implementing OAuth with Keycloak in Ruby}
-  spec.homepage      = "https://github.com/simplificator/keycloak_oauth"
+  spec.homepage      = "https://rubygems.org/gems/keycloak_oauth"
   spec.license       = "MIT"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
 
-  spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
+  spec.metadata["allowed_push_host"] = "http://rubygems.org"
 
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = "https://github.com/simplificator/keycloak_oauth"
