@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe KeycloakOauth::Models::Connection do
+RSpec.describe KeycloakOauth::Connection do
   let(:auth_url) { 'http://domain/auth' }
   let(:realm) { 'first_realm' }
   let(:client_id) { 'a_client' }

@@ -1,6 +1,6 @@
 require 'keycloak_oauth/version'
-require 'keycloak_oauth/models/configuration'
-require 'keycloak_oauth/models/connection'
+require 'keycloak_oauth/configuration'
+require 'keycloak_oauth/connection'
 
 module KeycloakOauth
   def self.configure
@@ -8,11 +8,11 @@ module KeycloakOauth
   end
 
   def self.configuration
-    Models::Configuration.instance
+    Configuration.instance
   end
 
   def self.connection
-    @connection ||= KeycloakOauth::Models::Connection.new(
+    @connection ||= KeycloakOauth::Connection.new(
       auth_url: configuration.auth_url,
       realm: configuration.realm,
       client_id: configuration.client_id,
