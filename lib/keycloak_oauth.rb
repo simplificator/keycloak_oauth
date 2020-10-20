@@ -1,6 +1,7 @@
 require 'keycloak_oauth/version'
 require 'keycloak_oauth/configuration'
 require 'keycloak_oauth/connection'
+require 'keycloak_oauth/engine'
 
 module KeycloakOauth
   def self.configure
