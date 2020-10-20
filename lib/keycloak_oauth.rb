@@ -17,7 +17,8 @@ module KeycloakOauth
       auth_url: configuration.auth_url,
       realm: configuration.realm,
       client_id: configuration.client_id,
-      client_secret: configuration.client_secret
+      client_secret: configuration.client_secret,
+      callback_class: configuration.callback_class
     )
   end
 end

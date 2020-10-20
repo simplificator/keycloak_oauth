@@ -1,14 +1,15 @@
 module KeycloakOauth
   class Connection
-    attr_reader :auth_url, :realm, :client_id, :client_secret
+    attr_reader :auth_url, :realm, :client_id, :client_secret, :callback_class
 
     DEFAULT_RESPONSE_TYPE = 'code'.freeze
 
-    def initialize(auth_url:, realm:, client_id:, client_secret:)
+    def initialize(auth_url:, realm:, client_id:, client_secret:, callback_class:)
       @auth_url = auth_url
       @realm = realm
       @client_id = client_id
       @client_secret = client_secret
+      @callback_class = callback_class
     end
 
     def authorization_endpoint(options: {})
