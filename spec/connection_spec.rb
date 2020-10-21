@@ -1,19 +1,10 @@
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.describe KeycloakOauth::Connection do
   let(:auth_url) { 'http://domain/auth' }
   let(:realm) { 'first_realm' }
   let(:client_id) { 'a_client' }
   let(:client_secret) { 'a_secret' }
-
-  before do
-    KeycloakOauth.configure do |config|
-      config.auth_url = auth_url
-      config.realm = realm
-      config.client_id = client_id
-      config.client_secret = client_secret
-    end
-  end
 
   describe '#authorization_endpoint' do
     subject { KeycloakOauth.connection }

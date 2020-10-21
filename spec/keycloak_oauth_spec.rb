@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 RSpec.describe KeycloakOauth do
   it "has a version number" do
     expect(KeycloakOauth::VERSION).not_to be nil
@@ -9,15 +11,6 @@ RSpec.describe KeycloakOauth do
     let(:client_id) { 'a_client' }
     let(:client_secret) { 'a_secret' }
 
-    before do
-      KeycloakOauth.configure do |config|
-        config.auth_url = auth_url
-        config.realm = realm
-        config.client_id = client_id
-        config.client_secret = client_secret
-      end
-    end
-
     subject { KeycloakOauth.connection }
 
     it 'initializes a connection' do
@@ -25,6 +18,7 @@ RSpec.describe KeycloakOauth do
       expect(subject.realm).to eq('first_realm')
       expect(subject.client_id).to eq('a_client')
       expect(subject.client_secret).to eq('a_secret')
+      expect(subject.callback_module.to_s).to eq('KeycloakOauthCallbacks')
     end
   end
 end
