@@ -4,7 +4,7 @@ module KeycloakOauth
 
     DEFAULT_RESPONSE_TYPE = 'code'.freeze
 
-    def initialize(auth_url:, realm:, client_id:, client_secret:, callback_module:)
+    def initialize(auth_url:, realm:, client_id:, client_secret:, callback_module: nil)
       @auth_url = auth_url
       @realm = realm
       @client_id = client_id

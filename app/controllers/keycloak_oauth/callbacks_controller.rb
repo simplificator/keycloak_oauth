@@ -1,9 +1,11 @@
 module KeycloakOauth
   class CallbacksController < ApplicationController
-    include KeycloakOauth.connection.callback_module
+    if KeycloakOauth.connection.callback_module.present?
+      include KeycloakOauth.connection.callback_module
+    end
 
     def openid_connect
-      after_sign_in_path(request)
+      redirect_to self.class.method_defined?(:after_sign_in_path) ? after_sign_in_path(request) : '/'
     end
   end
 end
