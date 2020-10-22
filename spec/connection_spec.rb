@@ -21,4 +21,12 @@ RSpec.describe KeycloakOauth::Connection do
       end
     end
   end
+
+  describe '#authentication_endpoint' do
+    subject { KeycloakOauth.connection }
+
+    it 'returns scoped authorization_endpoint' do
+      expect(subject.authentication_endpoint).to eq('http://domain/auth/realms/first_realm/protocol/openid-connect/token')
+    end
+  end
 end
