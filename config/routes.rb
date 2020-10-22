@@ -1,3 +1,3 @@
 KeycloakOauth::Engine.routes.draw do
-  get 'openid_connect', to: 'callbacks#openid_connect'
+  get 'oauth2', to: 'callbacks#oauth2'
 end

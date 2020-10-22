@@ -4,7 +4,7 @@ module KeycloakOauth
       include KeycloakOauth.connection.callback_module
     end
 
-    def openid_connect
+    def oauth2
       redirect_to self.class.method_defined?(:after_sign_in_path) ? after_sign_in_path(request) : '/'
     end
   end
