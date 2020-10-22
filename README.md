@@ -38,6 +38,27 @@ end
 This then allows you to access the `KeycloakOauth` APIs:
 `KeycloakOauth.connection.authorization_endpoint`
 
+**Keycloak callback URL**
+Keycloak needs a callback URL to send the authorization code to once a user logs in.
+By default, once authentication is performed, we redirect to the `/` path (i.e. whatever the root path is set to in the host app).
+If you need the user to be redirected to something other than the root path, you can achieve that in the following way:
+
+1. Add a new module (could be a controller concern) e.g. `KeycloakOauthCallbacks`
+2. In this module, define a method `after_sign_in_path`
+3. In the method, perform whatever logic you need to return the right path e.g.
+```ruby
+def after_sign_in_path
+  my_custom_path
+end
+```
+4. Tell the gem where you've overridden the paths by setting the following config in your configuration initializer file:
+```ruby
+KeycloakOauth.configure do |config|
+  ...
+  config.callback_module = KeycloakOauthCallbacks
+end
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

@@ -1,6 +1,7 @@
 require 'keycloak_oauth/version'
 require 'keycloak_oauth/configuration'
 require 'keycloak_oauth/connection'
+require 'keycloak_oauth/engine'
 
 module KeycloakOauth
   def self.configure
@@ -16,7 +17,8 @@ module KeycloakOauth
       auth_url: configuration.auth_url,
       realm: configuration.realm,
       client_id: configuration.client_id,
-      client_secret: configuration.client_secret
+      client_secret: configuration.client_secret,
+      callback_module: configuration.callback_module
     )
   end
 end
