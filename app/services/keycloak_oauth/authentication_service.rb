@@ -7,11 +7,13 @@ module KeycloakOauth
     GRANT_TYPE = 'authorization_code'.freeze
     CONTENT_TYPE = 'application/x-www-form-urlencoded'.freeze
     ACCESS_TOKEN_KEY = 'access_token'.freeze
+    REFRESH_TOKEN_KEY = 'refresh_token'.freeze
 
-    attr_reader :code
+    attr_reader :code, :session
 
-    def initialize(authentication_params)
+    def initialize(authentication_params:, session:)
       @code = authentication_params[:code]
+      @session = session
     end
 
     def authenticate
@@ -26,8 +28,7 @@ module KeycloakOauth
         request = Net::HTTP::Post.new(uri)
         request.set_content_type(CONTENT_TYPE)
         request.set_form_data(token_request_params)
-        response = http.request(request)
-        response
+        http.request(request)
       end
     end
 
@@ -44,7 +45,8 @@ module KeycloakOauth
       response_hash = JSON.parse(http_response.body)
 
       if http_response.code_type == Net::HTTPOK
-        # TODO
+        session[:access_token] = response_hash[ACCESS_TOKEN_KEY]
+        session[:refresh_token] = response_hash[REFRESH_TOKEN_KEY]
       else
         raise KeycloakOauth::AuthenticationError.new(response_hash)
       end
