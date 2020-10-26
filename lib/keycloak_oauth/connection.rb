@@ -20,5 +20,10 @@ module KeycloakOauth
     def authentication_endpoint
       "#{auth_url}/realms/#{realm}/protocol/openid-connect/token"
     end
+
+
+    def user_info_endpoint
+      "#{auth_url}/realms/#{realm}/protocol/openid-connect/userinfo"
+    end
   end
 end
