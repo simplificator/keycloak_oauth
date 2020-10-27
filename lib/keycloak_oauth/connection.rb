@@ -1,8 +1,10 @@
+require 'keycloak_oauth/endpoints'
+
 module KeycloakOauth
   class Connection
-    attr_reader :auth_url, :realm, :client_id, :client_secret, :callback_module
+    include KeycloakOauth::Endpoints
 
-    DEFAULT_RESPONSE_TYPE = 'code'.freeze
+    attr_reader :auth_url, :realm, :client_id, :client_secret, :callback_module
 
     def initialize(auth_url:, realm:, client_id:, client_secret:, callback_module: nil)
       @auth_url = auth_url
@@ -12,13 +14,10 @@ module KeycloakOauth
       @callback_module = callback_module
     end
 
-    def authorization_endpoint(options: {})
-      endpoint = "#{auth_url}/realms/#{realm}/protocol/openid-connect/auth?client_id=#{client_id}"
-      endpoint += "&response_type=#{options[:response_type] || DEFAULT_RESPONSE_TYPE}"
-    end
-
-    def authentication_endpoint
-      "#{auth_url}/realms/#{realm}/protocol/openid-connect/token"
+    def get_user_information(access_token:)
+      service = KeycloakOauth::UserInfoRetrievalService.new(access_token: access_token)
+      service.retrieve
+      service.user_information
     end
   end
 end
