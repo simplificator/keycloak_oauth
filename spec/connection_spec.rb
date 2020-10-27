@@ -49,6 +49,14 @@ RSpec.describe KeycloakOauth::Connection do
     end
   end
 
+  describe '#logout_endpoint' do
+    subject { KeycloakOauth.connection }
+
+    it 'returns scoped logout_endpoint' do
+      expect(subject.logout_endpoint).to eq('http://domain/auth/realms/first_realm/protocol/openid-connect/logout')
+    end
+  end
+
   describe '#get_user_information' do
     it 'retrieves user information' do
       stub_request(:get, 'http://domain/auth/realms/first_realm/protocol/openid-connect/userinfo').
