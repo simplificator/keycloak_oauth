@@ -68,13 +68,12 @@ end
 **User mapping**
 The host app is responsible for mapping a Keycloak session with a Rails user session. This can be achieved
 by implementing the `map_authenticatable` method in the module configured above (e.g. `KeycloakOauthCallbacks` in our example).
-You can get the user information using the `KeycloakOauth::UserInfoRetrievalService` to which you pass in the access token.
+You can get the user information by making a call to `KeycloakOauth.connection.get_user_information` to which you pass in the access token.
 See here an example of retrieving the user information and saving the email address in the Rails session:
 
 ```ruby
 def map_authenticatable(_request)
-  service = KeycloakOauth::UserInfoRetrievalService.new(access_token: session[:access_token])
-  service.retrieve
+  service = KeycloakOauth.connection.get_user_information(access_token: session[:access_token])
   session[:user_email_address] = service.user_information['email']
 end
 ```
