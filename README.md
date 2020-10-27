@@ -38,6 +38,12 @@ end
 This then allows you to access the `KeycloakOauth` APIs:
 `KeycloakOauth.connection.authorization_endpoint`
 
+You can allow the user to log in with Keycloak by adding adding a link that points to `KeycloakOauth.connection.authorization_endpoint`:
+e.g.
+`<%= link_to 'Login with Keycloak', KeycloakOauth.connection.authorization_endpoint %>`
+
+Once authentication is performed, the access and refresh tokens are stored in the session and can be used in your app as wished.
+
 **Keycloak callback URL**
 Keycloak needs a callback URL to send the authorization code to once a user logs in.
 By default, once authentication is performed, we redirect to the `/` path (i.e. whatever the root path is set to in the host app).

@@ -16,5 +16,9 @@ module KeycloakOauth
       endpoint = "#{auth_url}/realms/#{realm}/protocol/openid-connect/auth?client_id=#{client_id}"
       endpoint += "&response_type=#{options[:response_type] || DEFAULT_RESPONSE_TYPE}"
     end
+
+    def authentication_endpoint
+      "#{auth_url}/realms/#{realm}/protocol/openid-connect/token"
+    end
   end
 end
