@@ -19,8 +19,19 @@ module Helpers
       "tYTU0NS1kOWQzMzAzNjEzMWEifQ.eyJqdGkiOiJmNGFkODcyZC1mZTRlLTQ1ZGMtOWFjOC0yODg1OW"
     end
 
+    def keycloak_user_info_request_body
+      "{\"sub\":\"62647491-07ba-4961-8b9a-38e43916b4a0\",\"email_verified\":true" \
+      ",\"name\":\"First User\",\"groups\":[\"/group_A\"],\"preferred_username" \
+      "\":\"first_user\",\"given_name\":\"First\",\"family_name\":\"User\",\"" \
+      "email\":\"first_user@example.com\"}"
+    end
+
     def keycloak_invalid_code_request_error_body
       "{\"error\":\"invalid_grant\",\"error_description\":\"Code not valid\"}"
+    end
+
+    def keycloak_invalid_token_request_error_body
+      "{\"error\":\"invalid_token\",\"error_description\":\"Token invalid: Failed to parse JWT\"}"
     end
   end
 end
