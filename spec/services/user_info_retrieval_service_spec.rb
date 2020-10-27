@@ -36,7 +36,7 @@ RSpec.describe KeycloakOauth::UserInfoRetrievalService do
         stub_request(:get, 'http://domain/auth/realms/first_realm/protocol/openid-connect/userinfo').
           to_return(status: [401], body: keycloak_invalid_token_request_error_body)
 
-        expect { subject.retrieve }.to raise_error(KeycloakOauth::UserInfoRetrievalError)
+        expect { subject.retrieve }.to raise_error(KeycloakOauth::AuthorizableError)
       end
     end
   end
