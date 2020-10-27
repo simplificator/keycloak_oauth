@@ -10,8 +10,7 @@ module KeycloakOauthCallbacks
   end
 
   def map_authenticatable(_request)
-    service = KeycloakOauth::UserInfoRetrievalService.new(access_token: session[:access_token])
-    service.retrieve
-    session[:user_email_address] = service.user_information['email']
+    user_info = KeycloakOauth.connection.get_user_information(access_token: session[:access_token])
+    session[:user_email_address] = user_info['email']
   end
 end

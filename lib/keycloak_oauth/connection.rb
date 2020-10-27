@@ -13,5 +13,11 @@ module KeycloakOauth
       @client_secret = client_secret
       @callback_module = callback_module
     end
+
+    def get_user_information(access_token:)
+      service = KeycloakOauth::UserInfoRetrievalService.new(access_token: access_token)
+      service.retrieve
+      service.user_information
+    end
   end
 end
