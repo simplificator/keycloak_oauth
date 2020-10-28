@@ -88,6 +88,22 @@ def map_authenticatable(_request)
 end
 ```
 
+**Logging out**
+In order to log out, you can use the following API call:
+`KeycloakOauth.connection.logout(session: session)`
+
+Note that you need to pass in the session, as the gem needs to remove the Keycloak tokens from there.
+
+e.g.
+```ruby
+class SessionsController < ApplicationController
+  def destroy
+    KeycloakOauth.connection.logout(session: session)
+    redirect_to new_session_path
+  end
+end
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
