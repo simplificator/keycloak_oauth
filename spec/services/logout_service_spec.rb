@@ -5,7 +5,12 @@ RSpec.describe KeycloakOauth::LogoutService do
   include Helpers::KeycloakResponses
 
   describe '#logout' do
-    subject { KeycloakOauth::LogoutService.new(access_token: access_token) }
+    subject do
+      KeycloakOauth::LogoutService.new(
+        access_token: access_token,
+        refresh_token: refresh_token
+      )
+    end
 
     context 'when the access token is invalid' do
       let(:access_token) { 'some_token' }

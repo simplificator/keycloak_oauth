@@ -49,20 +49,19 @@ RSpec.describe KeycloakOauth::Connection do
     end
   end
 
-  describe '#logout_endpoint' do
-    subject { KeycloakOauth.connection }
-
-    it 'returns scoped logout_endpoint' do
-      expect(subject.logout_endpoint).to eq('http://domain/auth/realms/first_realm/protocol/openid-connect/logout')
-    end
-  end
-
   describe '#get_user_information' do
+    subject do
+      KeycloakOauth.connection.get_user_information(
+        access_token: 'access_token',
+        refresh_token: 'refresh_token'
+      )
+    end
+
     it 'retrieves user information' do
       stub_request(:get, 'http://domain/auth/realms/first_realm/protocol/openid-connect/userinfo').
         to_return(body: keycloak_user_info_request_body)
 
-      expect(KeycloakOauth.connection.get_user_information(access_token: 'token')).to eq({
+      expect(subject).to eq({
         "sub" => '62647491-07ba-4961-8b9a-38e43916b4a0',
         "email_verified" => true,
         "name" => 'First User',

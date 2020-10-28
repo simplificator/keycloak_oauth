@@ -5,7 +5,11 @@ RSpec.describe KeycloakOauth::UserInfoRetrievalService do
   include Helpers::KeycloakResponses
 
   describe '#retrieve' do
-    subject { KeycloakOauth::UserInfoRetrievalService.new(access_token: access_token) }
+    subject do
+      KeycloakOauth::UserInfoRetrievalService.new(
+        access_token: access_token, refresh_token: refresh_token
+      )
+    end
 
     context 'when the user information can be retrieved from Keycloak' do
       it 'retrieves authentication information and stores it in session' do
