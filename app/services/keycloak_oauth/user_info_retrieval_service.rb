@@ -4,11 +4,18 @@ module KeycloakOauth
   class UserInfoRetrievalService < KeycloakOauth::AuthorizableService
     attr_reader :user_information
 
+    def initialize(access_token:, refresh_token:)
+      @access_token = access_token
+      @refresh_token = refresh_token
+    end
+
     def retrieve
       @user_information = parsed_response(get_user)
     end
 
     private
+
+    attr_accessor :access_token, :refresh_token
 
     def get_user
       uri = URI.parse(KeycloakOauth.connection.user_info_endpoint)
