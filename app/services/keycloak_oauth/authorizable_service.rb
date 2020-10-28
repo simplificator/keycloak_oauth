@@ -8,14 +8,7 @@ module KeycloakOauth
     DEFAULT_CONTENT_TYPE = 'application/x-www-form-urlencoded'.freeze
     AUTHORIZATION_HEADER = 'Authorization'.freeze
 
-    def initialize(access_token:, refresh_token:)
-      @access_token = access_token
-      @refresh_token = refresh_token
-    end
-
     private
-
-    attr_accessor :access_token, :refresh_token
 
     def parsed_response(http_response)
       response = http_response.body.present? ? JSON.parse(http_response.body) : http_response.body

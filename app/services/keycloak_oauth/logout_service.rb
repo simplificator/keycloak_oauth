@@ -2,11 +2,17 @@ require 'net/http'
 
 module KeycloakOauth
   class LogoutService < KeycloakOauth::AuthorizableService
+    def initialize(session)
+      @session = session
+    end
+
     def logout
       parsed_response(post_logout)
     end
 
     private
+
+    attr_accessor :session
 
     def post_logout
       uri = URI.parse(KeycloakOauth.connection.logout_endpoint)
@@ -25,6 +31,14 @@ module KeycloakOauth
         client_secret: KeycloakOauth.connection.client_secret,
         refresh_token: refresh_token
       }
+    end
+
+    def access_token
+      session[:access_token]
+    end
+
+    def refresh_token
+      session[:refresh_token]
     end
   end
 end

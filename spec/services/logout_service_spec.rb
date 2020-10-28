@@ -5,12 +5,9 @@ RSpec.describe KeycloakOauth::LogoutService do
   include Helpers::KeycloakResponses
 
   describe '#logout' do
-    subject do
-      KeycloakOauth::LogoutService.new(
-        access_token: access_token,
-        refresh_token: refresh_token
-      )
-    end
+    let(:session) { OpenStruct.new(access_token: 'token_A', refresh_token: 'token_B') }
+
+    subject { KeycloakOauth::LogoutService.new(session) }
 
     it 'logs out from Keycloak' do
       stub_request(:post, 'http://domain/auth/realms/first_realm/protocol/openid-connect/logout').
@@ -23,7 +20,7 @@ RSpec.describe KeycloakOauth::LogoutService do
     end
 
     context 'when the access token is invalid' do
-      let(:access_token) { 'some_token' }
+      let(:session) { OpenStruct.new(access_token: 'invalid') }
 
       it 'raises an error' do
         stub_request(:post, 'http://domain/auth/realms/first_realm/protocol/openid-connect/logout').
