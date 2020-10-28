@@ -12,6 +12,16 @@ RSpec.describe KeycloakOauth::LogoutService do
       )
     end
 
+    it 'logs out from Keycloak' do
+      stub_request(:post, 'http://domain/auth/realms/first_realm/protocol/openid-connect/logout').
+        to_return(status: [204], body: nil) # Keycloak replies with an empty body.
+
+      service = subject
+      service.logout
+
+      expect(service.logout).to be_nil
+    end
+
     context 'when the access token is invalid' do
       let(:access_token) { 'some_token' }
 

@@ -18,7 +18,7 @@ module KeycloakOauth
     attr_accessor :access_token, :refresh_token
 
     def parsed_response(http_response)
-      response = http_response.body.nil? ? http_response.body : JSON.parse(http_response.body)
+      response = http_response.body.present? ? JSON.parse(http_response.body) : http_response.body
 
       return response if HTTP_SUCCESS_CODES.include?(http_response.code_type)
 
