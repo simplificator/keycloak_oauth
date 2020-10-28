@@ -22,5 +22,13 @@ module KeycloakOauth
       service.retrieve
       service.user_information
     end
+
+    def logout(access_token:, refresh_token:)
+      service = KeycloakOauth::LogoutService.new(
+        access_token: access_token,
+        refresh_token: refresh_token
+      )
+      service.logout
+    end
   end
 end

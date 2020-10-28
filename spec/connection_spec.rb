@@ -34,4 +34,20 @@ RSpec.describe KeycloakOauth::Connection do
       )
     end
   end
+
+  describe '#logout' do
+    subject do
+      KeycloakOauth.connection.logout(
+        access_token: 'access_token',
+        refresh_token: 'refresh_token'
+      )
+    end
+
+    it 'logs out' do
+      stub_request(:post, 'http://domain/auth/realms/first_realm/protocol/openid-connect/logout').
+        to_return(status: [204], body: nil)
+
+      expect(subject).to be_nil
+    end
+  end
 end
