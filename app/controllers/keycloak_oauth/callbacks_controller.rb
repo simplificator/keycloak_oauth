@@ -7,7 +7,8 @@ module KeycloakOauth
     def oauth2
       authentication_service = KeycloakOauth::AuthenticationService.new(
         authentication_params: authentication_params,
-        session: session
+        session: session,
+        redirect_uri: current_uri_without_params
       )
       authentication_service.authenticate
       map_authenticatable_if_implemented(session)
@@ -27,6 +28,16 @@ module KeycloakOauth
       else
         raise NotImplementedError.new('User mapping must be handled by the host app. See README for more information.')
       end
+    end
+
+    def current_uri_without_params
+      # If the host app has overwritten the route (e.g. to enable localised
+      # callbacks), this ensures we are using the path coming from the host app
+      # instead of the one coming from the engine.
+      main_app.url_for(only_path: false, overwrite_params: nil)
+    rescue ActionController::UrlGenerationError
+      # If the host app does not override the oauth2 path, use the engine's path.
+      oauth2_path
     end
   end
 end
