@@ -9,11 +9,12 @@ module KeycloakOauth
     ACCESS_TOKEN_KEY = 'access_token'.freeze
     REFRESH_TOKEN_KEY = 'refresh_token'.freeze
 
-    attr_reader :code, :session
+    attr_reader :session
 
-    def initialize(authentication_params:, session:)
+    def initialize(authentication_params:, session:, redirect_uri:)
       @code = authentication_params[:code]
       @session = session
+      @redirect_uri = redirect_uri
     end
 
     def authenticate
@@ -21,6 +22,8 @@ module KeycloakOauth
     end
 
     private
+
+    attr_reader :code, :redirect_uri
 
     def get_tokens
       uri = URI.parse(KeycloakOauth.connection.authentication_endpoint)
@@ -37,7 +40,8 @@ module KeycloakOauth
         client_id: KeycloakOauth.connection.client_id,
         client_secret: KeycloakOauth.connection.client_secret,
         grant_type: GRANT_TYPE,
-        code: code
+        code: code,
+        redirect_uri: redirect_uri
       }
     end
 

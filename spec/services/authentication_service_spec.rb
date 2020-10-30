@@ -8,7 +8,8 @@ RSpec.describe KeycloakOauth::AuthenticationService do
     subject do
       KeycloakOauth::AuthenticationService.new(
         authentication_params: dummy_authentication_params,
-        session: session
+        session: session,
+        redirect_uri: 'http://example.com/oauth2'
       )
     end
 
