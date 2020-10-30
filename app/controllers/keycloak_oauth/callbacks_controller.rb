@@ -1,5 +1,5 @@
 module KeycloakOauth
-  class CallbacksController < ApplicationController
+  class CallbacksController < ::ApplicationController
     if KeycloakOauth.connection.callback_module.present?
       include KeycloakOauth.connection.callback_module
     end
