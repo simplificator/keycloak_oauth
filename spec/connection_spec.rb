@@ -23,6 +23,14 @@ RSpec.describe KeycloakOauth::Connection do
         expect(endpoint).to eq('http://domain/auth/realms/first_realm/protocol/openid-connect/auth?client_id=a_client&response_type=token')
       end
     end
+
+    context 'when redirect_uri is passed in' do
+      it 'returns scoped authorization_endpoint with custom redirect_uri' do
+        endpoint = subject.authorization_endpoint(options: { redirect_uri: 'http://example.com/oauth2' })
+
+        expect(endpoint).to eq('http://domain/auth/realms/first_realm/protocol/openid-connect/auth?client_id=a_client&response_type=code&redirect_uri=http://example.com/oauth2')
+      end
+    end
   end
 
   describe '#authentication_endpoint' do

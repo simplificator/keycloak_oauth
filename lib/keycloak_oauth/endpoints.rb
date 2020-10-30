@@ -5,6 +5,8 @@ module KeycloakOauth
     def authorization_endpoint(options: {})
       endpoint = "#{auth_url}/realms/#{realm}/protocol/openid-connect/auth?client_id=#{client_id}"
       endpoint += "&response_type=#{options[:response_type] || DEFAULT_RESPONSE_TYPE}"
+      endpoint += "&redirect_uri=#{options[:redirect_uri]}" if options[:redirect_uri].present?
+      endpoint
     end
 
     def authentication_endpoint
