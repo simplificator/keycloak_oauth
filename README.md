@@ -44,6 +44,16 @@ e.g.
 
 Once authentication is performed, the access and refresh tokens are stored in the session and can be used in your app as wished.
 
+***Customising redirect URIs***
+There are situations where you would want to customise the oauth2 route (e.g. to use a localised version of the callback URL).
+In this case, you can do the following:
+- add a controller to your app: e.g. `CallbackOverrides`
+- add the following to your routes.rb file: `get 'oauth2', to: 'callback_overrides#oauth2'`
+- add whatever logic you need in the controller, e.g. a `skip_before_action`; it can also be blank
+- add redirect URI to the authorization link:
+e.g.
+`<%= link_to 'Login with Keycloak', KeycloakOauth.connection.authorization_endpoint(options: {redirect_uri: 'http://myapp.com/en/oauth2'}) %>`
+
 **Keycloak callback URL**
 Keycloak needs a callback URL to send the authorization code to once a user logs in.
 By default, once authentication is performed, we redirect to the `/` path (i.e. whatever the root path is set to in the host app).
