@@ -54,8 +54,6 @@ In this case, you can do the following:
 e.g.
 `<%= link_to 'Login with Keycloak', KeycloakOauth.connection.authorization_endpoint(options: {redirect_uri: 'http://myapp.com/en/oauth2'}) %>`
 
-Note: Make sure you update your routes in this case, to ensure that
-
 **Keycloak callback URL**
 Keycloak needs a callback URL to send the authorization code to once a user logs in.
 By default, once authentication is performed, we redirect to the `/` path (i.e. whatever the root path is set to in the host app).
