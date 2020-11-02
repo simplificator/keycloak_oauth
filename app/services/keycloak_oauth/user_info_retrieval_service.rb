@@ -23,7 +23,7 @@ module KeycloakOauth
 
     def get_user
       uri = URI.parse(KeycloakOauth.connection.user_info_endpoint)
-      Net::HTTP.start(uri.host, uri.port) do |http|
+      Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') do |http|
         request = Net::HTTP::Get.new(uri)
         request.set_content_type(CONTENT_TYPE)
         request[AUTHORIZATION_HEADER] = "Bearer #{access_token}"
