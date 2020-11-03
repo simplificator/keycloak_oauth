@@ -5,6 +5,7 @@ jobs:
       matrix:
         ruby: [2.5, 2.6, 2.7]
     runs-on: ubuntu-latest
+    name: Test on Ruby ${{ matrix.ruby }}
     steps:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
@@ -17,3 +18,16 @@ jobs:
           restore-keys: bundle-${{ matrix.ruby }}
       - run: bundle install --jobs 4 --retry 3 --path vendor/bundle
       - run: bundle exec rake spec
+
+  release:
+    name: Release to RubyGems
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/pipeline-tests'
+    steps:
+      - uses: actions/checkout@v2
+      - uses: cadwallion/publish-rubygems-action@master
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          RUBYGEMS_API_KEY: ${{secrets.RUBYGEMS_API_KEY}}
+          RELEASE_COMMAND: bundle exec rake release
