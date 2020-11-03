@@ -18,3 +18,5 @@ test/dummy/tmp/
 # rspec failure tracking
 .rspec_status
 .byebug_history
+
+/vendor/
