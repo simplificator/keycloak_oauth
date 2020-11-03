@@ -29,7 +29,17 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.7
-      # todo: tag on Github?
+      - name: Get Version
+        id: version
+        run: |
+          # Todo: Maybe there's a better way to get the version?
+          VERSION=$(echo "require './lib/keycloak_oauth/version.rb'; puts KeycloakOauth::VERSION" | ruby)
+          echo $VERSION
+      # Todo: what if the tag already exists?
+      - name: Tag on Github
+        run: |
+          git tag "v$VERSION"
+          git push origin "v$VERSION"
       - name: Publish to RubyGems
         run: |
           mkdir -p $HOME/.gem
