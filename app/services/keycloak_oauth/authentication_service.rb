@@ -27,7 +27,7 @@ module KeycloakOauth
 
     def get_tokens
       uri = URI.parse(KeycloakOauth.connection.authentication_endpoint)
-      Net::HTTP.start(uri.host, uri.port) do |http|
+      Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') do |http|
         request = Net::HTTP::Post.new(uri)
         request.set_content_type(CONTENT_TYPE)
         request.set_form_data(token_request_params)
