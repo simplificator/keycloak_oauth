@@ -9,52 +9,19 @@ RSpec.describe KeycloakOauth::Connection do
   let(:client_id) { 'a_client' }
   let(:client_secret) { 'a_secret' }
 
-  describe '#authorization_endpoint' do
-    subject { KeycloakOauth.connection }
-
-    it 'returns scoped authorization_endpoint' do
-      expect(subject.authorization_endpoint).to eq('http://domain/auth/realms/first_realm/protocol/openid-connect/auth?client_id=a_client&response_type=code')
-    end
-
-    context 'when response_type is passed in' do
-      it 'returns scoped authorization_endpoint with custom response_type' do
-        endpoint = subject.authorization_endpoint(options: { response_type: 'token' })
-
-        expect(endpoint).to eq('http://domain/auth/realms/first_realm/protocol/openid-connect/auth?client_id=a_client&response_type=token')
-      end
-    end
-
-    context 'when redirect_uri is passed in' do
-      it 'returns scoped authorization_endpoint with custom redirect_uri' do
-        endpoint = subject.authorization_endpoint(options: { redirect_uri: 'http://example.com/oauth2' })
-
-        expect(endpoint).to eq('http://domain/auth/realms/first_realm/protocol/openid-connect/auth?client_id=a_client&response_type=code&redirect_uri=http://example.com/oauth2')
-      end
-    end
-  end
-
-  describe '#authentication_endpoint' do
-    subject { KeycloakOauth.connection }
-
-    it 'returns scoped authorization_endpoint' do
-      expect(subject.authentication_endpoint).to eq('http://domain/auth/realms/first_realm/protocol/openid-connect/token')
-    end
-  end
-
-  describe '#user_info_endpoint' do
-    subject { KeycloakOauth.connection }
-
-    it 'returns scoped user_info_endpoint' do
-      expect(subject.user_info_endpoint).to eq('http://domain/auth/realms/first_realm/protocol/openid-connect/userinfo')
-    end
-  end
-
   describe '#get_user_information' do
+    subject do
+      KeycloakOauth.connection.get_user_information(
+        access_token: 'access_token',
+        refresh_token: 'refresh_token'
+      )
+    end
+
     it 'retrieves user information' do
       stub_request(:get, 'http://domain/auth/realms/first_realm/protocol/openid-connect/userinfo').
         to_return(body: keycloak_user_info_request_body)
 
-      expect(KeycloakOauth.connection.get_user_information(access_token: 'token')).to eq({
+      expect(subject).to eq({
         "sub" => '62647491-07ba-4961-8b9a-38e43916b4a0',
         "email_verified" => true,
         "name" => 'First User',
@@ -65,6 +32,19 @@ RSpec.describe KeycloakOauth::Connection do
         "email" => 'first_user@example.com'
         }
       )
+    end
+  end
+
+  describe '#logout' do
+    let(:session) { OpenStruct.new(access_token: 'token_A', refresh_token: 'token_B') }
+
+    subject { KeycloakOauth.connection.logout(session: session) }
+
+    it 'logs out' do
+      stub_request(:post, 'http://domain/auth/realms/first_realm/protocol/openid-connect/logout').
+        to_return(status: [204], body: nil)
+
+      expect(subject).to be_nil
     end
   end
 end
