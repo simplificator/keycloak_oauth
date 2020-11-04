@@ -21,7 +21,7 @@ jobs:
       - uses: actions/cache@v1
         with:
           path: vendor/bundle
-          key: bundle-${{ matrix.ruby }}-${{ hashFiles('**/*.gemspec') }}
+          key: bundle-${{ matrix.ruby }}-${{ hashFiles('**/*.gemspec', '**/Gemfile.lock') }}
           restore-keys: bundle-${{ matrix.ruby }}
       - run: bundle config set path 'vendor/bundle'
       - run: bundle install --jobs 2 --retry 3
