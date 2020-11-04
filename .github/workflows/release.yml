@@ -18,7 +18,7 @@ jobs:
           ruby-version: 2.7
       - name: Tag on Github
         run: |
-          VERSION=$(echo "puts Gem::Specification::load('keycloak_oauth.gemspec').version" | ruby)
+          VERSION=$(ruby -e "puts Gem::Specification::load('keycloak_oauth.gemspec').version")
           echo "v$VERSION"
           git tag "v$VERSION"
           git push origin "v$VERSION"
