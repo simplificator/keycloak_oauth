@@ -16,7 +16,7 @@ module KeycloakOauth
 
     def post_logout
       uri = URI.parse(KeycloakOauth.connection.logout_endpoint)
-      Net::HTTP.start(uri.host, uri.port) do |http|
+      Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
         request = Net::HTTP::Post.new(uri)
         request.set_content_type(DEFAULT_CONTENT_TYPE)
         request.set_form_data(logout_request_params)
