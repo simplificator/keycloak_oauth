@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    keycloak_oauth (0.1.5)
+    keycloak_oauth (0.1.7)
       rails (~> 6.0.3, >= 6.0.3.2)
 
 GEM
