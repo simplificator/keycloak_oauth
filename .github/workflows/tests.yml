@@ -23,5 +23,6 @@ jobs:
           path: vendor/bundle
           key: bundle-${{ matrix.ruby }}-${{ hashFiles('**/*.gemspec') }}
           restore-keys: bundle-${{ matrix.ruby }}
-      - run: bundle install --jobs 4 --retry 3 --path vendor/bundle
+      - run: bundle config set path 'vendor/bundle'
+      - run: bundle install --jobs 4 --retry 3
       - run: bundle exec rake spec
