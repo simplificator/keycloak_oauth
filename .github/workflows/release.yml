@@ -18,8 +18,7 @@ jobs:
           ruby-version: 2.7
       - name: Tag on Github
         run: |
-          # Todo: maybe there's a better way to get the version
-          VERSION=$(echo "require './lib/keycloak_oauth/version.rb'; puts KeycloakOauth::VERSION" | ruby)
+          VERSION=$(echo "puts Gem::Specification::load('keycloak_oauth.gemspec').version" | ruby)
           echo "v$VERSION"
           git tag "v$VERSION"
           git push origin "v$VERSION"
