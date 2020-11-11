@@ -4,12 +4,11 @@ require 'support/helpers/keycloak_responses'
 RSpec.describe KeycloakOauth::AuthenticationService do
   include Helpers::KeycloakResponses
 
-  describe '#authenticate' do
+  describe '#perform' do
     subject do
       KeycloakOauth::AuthenticationService.new(
         authentication_params: dummy_authentication_params,
-        session: session,
-        redirect_uri: 'http://example.com/oauth2'
+        session: session
       )
     end
 
@@ -45,7 +44,16 @@ RSpec.describe KeycloakOauth::AuthenticationService do
   def dummy_authentication_params
     {
       code: '8c964a59-288b-4189-a43e-4c128f7a40c5.07f3451d-0331-4e26-9e3c-994011f1a431.94e82291-2a65-4643-9809-a3494a97b43f',
-      session_state: '07f3451d-0331-4e26-9e3c-994011f1a431'
+      session_state: '07f3451d-0331-4e26-9e3c-994011f1a431',
+      redirect_uri: 'http://example.com/oauth2'
     }
   end
 end
+
+
+
+
+
+
+
+

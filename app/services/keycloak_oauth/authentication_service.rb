@@ -1,49 +1,26 @@
-require 'net/http'
-
 module KeycloakOauth
   class AuthenticationError < StandardError; end
 
   class AuthenticationService
-    GRANT_TYPE = 'authorization_code'.freeze
-    CONTENT_TYPE = 'application/x-www-form-urlencoded'.freeze
     ACCESS_TOKEN_KEY = 'access_token'.freeze
     REFRESH_TOKEN_KEY = 'refresh_token'.freeze
 
-    attr_reader :session
+    attr_reader :session, :authentication_params
 
-    def initialize(authentication_params:, session:, redirect_uri:)
-      @code = authentication_params[:code]
+    def initialize(authentication_params:, session:)
+      @authentication_params = authentication_params
       @session = session
-      @redirect_uri = redirect_uri
     end
 
     def authenticate
-      store_credentials(get_tokens)
+      post_token_service = KeycloakOauth::PostTokenService.new(
+        connection: KeycloakOauth.connection,
+        request_params: authentication_params
+      )
+      store_credentials(post_token_service.send_request)
     end
 
     private
-
-    attr_reader :code, :redirect_uri
-
-    def get_tokens
-      uri = URI.parse(KeycloakOauth.connection.authentication_endpoint)
-      Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') do |http|
-        request = Net::HTTP::Post.new(uri)
-        request.set_content_type(CONTENT_TYPE)
-        request.set_form_data(token_request_params)
-        http.request(request)
-      end
-    end
-
-    def token_request_params
-      {
-        client_id: KeycloakOauth.connection.client_id,
-        client_secret: KeycloakOauth.connection.client_secret,
-        grant_type: GRANT_TYPE,
-        code: code,
-        redirect_uri: redirect_uri
-      }
-    end
 
     def store_credentials(http_response)
       response_hash = JSON.parse(http_response.body)
