@@ -7,8 +7,7 @@ module KeycloakOauth
     def oauth2
       authentication_service = KeycloakOauth::AuthenticationService.new(
         authentication_params: authentication_params,
-        session: session,
-        redirect_uri: current_uri_without_params
+        session: session
       )
       authentication_service.authenticate
       map_authenticatable_if_implemented(session)
@@ -19,7 +18,7 @@ module KeycloakOauth
     private
 
     def authentication_params
-      params.permit(:code)
+      params.permit(:code).merge({ redirect_uri: current_uri_without_params })
     end
 
     def map_authenticatable_if_implemented(request)
