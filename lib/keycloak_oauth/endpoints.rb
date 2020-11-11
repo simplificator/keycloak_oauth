@@ -20,5 +20,9 @@ module KeycloakOauth
     def logout_endpoint
       "#{auth_url}/realms/#{realm}/protocol/openid-connect/logout"
     end
+
+    def post_users_endpoint
+      "#{auth_url}/admin/realms/#{realm}/users"
+    end
   end
 end
