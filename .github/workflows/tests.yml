@@ -1,0 +1,28 @@
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        ruby: [2.5, 2.6, 2.7]
+    runs-on: ubuntu-latest
+    name: Test on Ruby ${{ matrix.ruby }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+      - uses: actions/cache@v1
+        with:
+          path: vendor/bundle
+          key: bundle-${{ matrix.ruby }}-${{ hashFiles('**/*.gemspec', '**/Gemfile.lock') }}
+          restore-keys: bundle-${{ matrix.ruby }}
+      - run: bundle config set path 'vendor/bundle'
+      - run: bundle install --jobs 2 --retry 3
+      - run: bundle exec rake spec

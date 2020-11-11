@@ -1,0 +1,34 @@
+name: Tag on Github and Release to RubyGems
+on: [workflow_dispatch]
+
+jobs:
+  release:
+    name: Release to RubyGems
+    runs-on: ubuntu-latest
+    # Ideally, we would require successful tests before
+    # allowing to publish. Because the tests need to be
+    # in a separate workflow file, we can't reference it
+    # here.
+    # needs: test
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+      - name: Tag on Github
+        run: |
+          VERSION=$(ruby -e "puts Gem::Specification::load('keycloak_oauth.gemspec').version")
+          echo "v$VERSION"
+          git tag "v$VERSION"
+          git push origin "v$VERSION"
+      - name: Publish to RubyGems
+        run: |
+          mkdir -p $HOME/.gem
+          touch $HOME/.gem/credentials
+          chmod 0600 $HOME/.gem/credentials
+          printf -- "---\n:rubygems_api_key: ${RUBYGEMS_API_KEY}\n" > $HOME/.gem/credentials
+          gem build *.gemspec
+          gem push *.gem
+        env:
+          RUBYGEMS_API_KEY: ${{secrets.RUBYGEMS_API_KEY}}
