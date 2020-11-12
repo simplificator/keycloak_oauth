@@ -1,6 +1,8 @@
 require 'net/http'
 
 module KeycloakOauth
+  class EmailConflictError < StandardError; end
+
   class PostUsersService < KeycloakOauth::AuthorizableService
     CONTENT_TYPE = 'application/json'.freeze
 
@@ -30,6 +32,17 @@ module KeycloakOauth
         request.body = user_params.to_json
         http.request(request)
       end
+    end
+
+    def parsed_response(http_response)
+      super
+    rescue KeycloakOauth::AuthorizableError => exception
+      raise exception unless is_exception_an_email_conflict?(exception)
+      raise KeycloakOauth::EmailConflictError.new(exception)
+    end
+
+    def is_exception_an_email_conflict?(exception)
+      exception.message == "User exists with same email"
     end
   end
 end
