@@ -19,13 +19,13 @@ module KeycloakOauth
         access_token: access_token,
         refresh_token: refresh_token
       )
-      service.retrieve
-      service.user_information
+      service.perform
+      service.parsed_response_body
     end
 
     def logout(session:)
       service = KeycloakOauth::LogoutService.new(session)
-      service.logout
+      service.perform
     end
   end
 end
