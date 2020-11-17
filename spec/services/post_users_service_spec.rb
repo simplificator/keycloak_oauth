@@ -36,12 +36,22 @@ RSpec.describe KeycloakOauth::PostUsersService do
 
     context 'when Keycloak returned an error' do
       context 'when a user with this email already exists' do
-        it 'raises an EmailConflictError' do
+        it 'raises a DuplicationError' do
           stub_request(:post, 'http://domain/auth/admin/realms/first_realm/users')
             .with(body: dummy_user_params_as_json)
             .to_return(status: [409], body: email_conflict_error_as_json)
 
-          expect { subject }.to raise_error(KeycloakOauth::EmailConflictError)
+          expect { subject }.to raise_error(KeycloakOauth::DuplicationError)
+        end
+      end
+
+      context 'when a user with this username already exists' do
+        it 'raises a DuplicationError' do
+          stub_request(:post, 'http://domain/auth/admin/realms/first_realm/users')
+            .with(body: dummy_user_params_as_json)
+            .to_return(status: [409], body: username_conflict_error_as_json)
+
+          expect { subject }.to raise_error(KeycloakOauth::DuplicationError)
         end
       end
 
@@ -66,5 +76,9 @@ RSpec.describe KeycloakOauth::PostUsersService do
 
   def email_conflict_error_as_json
     "{\"errorMessage\":\"User exists with same email\"}"
+  end
+
+  def username_conflict_error_as_json
+    "{\"errorMessage\":\"User exists with same username\"}"
   end
 end
