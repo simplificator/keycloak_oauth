@@ -9,8 +9,8 @@ module KeycloakOauth
       @refresh_token = refresh_token
     end
 
-    def retrieve
-      @user_information = parsed_response(get_user)
+    def send_request
+      get_user
     end
 
     private

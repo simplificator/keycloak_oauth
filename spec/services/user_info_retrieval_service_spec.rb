@@ -4,22 +4,24 @@ require 'support/helpers/keycloak_responses'
 RSpec.describe KeycloakOauth::UserInfoRetrievalService do
   include Helpers::KeycloakResponses
 
-  describe '#retrieve' do
-    subject do
-      KeycloakOauth::UserInfoRetrievalService.new(
-        access_token: access_token, refresh_token: refresh_token
-      )
-    end
+  let(:service) do
+    KeycloakOauth::UserInfoRetrievalService.new(
+      access_token: access_token, refresh_token: refresh_token
+    )
+  end
+
+  describe '#perform' do
+    subject { service.perform }
 
     context 'when the user information can be retrieved from Keycloak' do
       it 'retrieves authentication information and stores it in session' do
         stub_request(:get, 'http://domain/auth/realms/first_realm/protocol/openid-connect/userinfo').
           to_return(body: keycloak_user_info_request_body)
 
-        service = subject
-        service.retrieve
+        subject
 
-        expect(service.user_information).to eq({
+        expect(service.http_response.code_type).to eq(Net::HTTPOK)
+        expect(service.parsed_response_body).to eq({
           "sub" => '62647491-07ba-4961-8b9a-38e43916b4a0',
           "email_verified" => true,
           "name" => 'First User',
@@ -40,7 +42,7 @@ RSpec.describe KeycloakOauth::UserInfoRetrievalService do
         stub_request(:get, 'http://domain/auth/realms/first_realm/protocol/openid-connect/userinfo').
           to_return(status: [401], body: keycloak_invalid_token_request_error_body)
 
-        expect { subject.retrieve }.to raise_error(KeycloakOauth::AuthorizableError)
+        expect { subject }.to raise_error(KeycloakOauth::AuthorizableError)
       end
     end
   end

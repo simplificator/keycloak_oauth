@@ -34,7 +34,7 @@ RSpec.describe KeycloakOauth::AuthenticationService do
         stub_request(:post, 'http://domain/auth/realms/first_realm/protocol/openid-connect/token').
           to_return(status: [400], body: keycloak_invalid_code_request_error_body)
 
-        expect { subject.authenticate }.to raise_error(KeycloakOauth::AuthenticationError)
+        expect { subject.authenticate }.to raise_error(KeycloakOauth::AuthorizableError)
       end
     end
   end

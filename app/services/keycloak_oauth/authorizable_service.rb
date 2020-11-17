@@ -8,17 +8,24 @@ module KeycloakOauth
     DEFAULT_CONTENT_TYPE = 'application/x-www-form-urlencoded'.freeze
     AUTHORIZATION_HEADER = 'Authorization'.freeze
 
+    attr_reader :http_response, :parsed_response_body
+
+    def perform
+      @http_response = send_request
+      @parsed_response_body ||= parse_response_body(http_response)
+    end
+
     private
 
-    def parsed_response(http_response)
-      response = http_response.body.present? ? JSON.parse(http_response.body) : http_response.body
+    def parse_response_body(http_response)
+      response_body = http_response.body.present? ? JSON.parse(http_response.body) : http_response.body
 
-      return response if HTTP_SUCCESS_CODES.include?(http_response.code_type)
+      return response_body if HTTP_SUCCESS_CODES.include?(http_response.code_type)
 
       # TODO: For now, we assume that the access token is always valid.
       # We do not yet handle the case where a refresh token is passed in and
       # used if the access token has expired.
-      raise KeycloakOauth::AuthorizableError.new(error_message_from(response))
+      raise KeycloakOauth::AuthorizableError.new(error_message_from(response_body))
     end
 
     def error_message_from(response)

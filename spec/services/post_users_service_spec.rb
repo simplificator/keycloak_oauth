@@ -4,20 +4,22 @@ require 'support/helpers/keycloak_responses'
 RSpec.describe KeycloakOauth::PostUsersService do
   include Helpers::KeycloakResponses
 
-  describe '#send_request' do
-    subject do
-      KeycloakOauth::PostUsersService.new(
-        access_token: 'access_token',
-        refresh_token: 'refresh_token',
-        connection: KeycloakOauth.connection,
-        user_params: {
-          firstName: 'TestUser',
-          lastName: 'TestUser',
-          email: 'testuser@example.com',
-          username: 'testuser@example.com'
-        }
-      )
-    end
+  let(:service) do
+    KeycloakOauth::PostUsersService.new(
+      access_token: 'access_token',
+      refresh_token: 'refresh_token',
+      connection: KeycloakOauth.connection,
+      user_params: {
+        firstName: 'TestUser',
+        lastName: 'TestUser',
+        email: 'testuser@example.com',
+        username: 'testuser@example.com'
+      }
+    )
+  end
+
+  describe '#perform' do
+    subject { service.perform }
 
     context 'when the user was created on Keycloak' do
       it 'performs request' do
@@ -25,9 +27,10 @@ RSpec.describe KeycloakOauth::PostUsersService do
           .with(body: dummy_user_params_as_json)
           .to_return(status: [201], body: nil) # Keycloak replies with an empty body.
 
+        subject
 
-        response = subject.send_request
-        expect(response).to be_empty
+        expect(service.http_response.code_type).to eq(Net::HTTPCreated)
+        expect(service.parsed_response_body).to be_empty
       end
     end
 
@@ -38,7 +41,7 @@ RSpec.describe KeycloakOauth::PostUsersService do
             .with(body: dummy_user_params_as_json)
             .to_return(status: [409], body: email_conflict_error_as_json)
 
-          expect { subject.send_request }.to raise_error(KeycloakOauth::EmailConflictError)
+          expect { subject }.to raise_error(KeycloakOauth::EmailConflictError)
         end
       end
 
@@ -48,7 +51,7 @@ RSpec.describe KeycloakOauth::PostUsersService do
             .with(body: dummy_user_params_as_json)
             .to_return(status: [401], body: keycloak_invalid_token_request_error_body)
 
-          expect { subject.send_request }.to raise_error(KeycloakOauth::AuthorizableError)
+          expect { subject }.to raise_error(KeycloakOauth::AuthorizableError)
         end
       end
     end

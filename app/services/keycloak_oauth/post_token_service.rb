@@ -1,9 +1,8 @@
 require 'net/http'
 
 module KeycloakOauth
-  class PostTokenService
+  class PostTokenService < KeycloakOauth::AuthorizableService
     DEFAULT_GRANT_TYPE = 'authorization_code'.freeze
-    CONTENT_TYPE = 'application/x-www-form-urlencoded'.freeze
 
     attr_reader :request_params, :connection
 
@@ -24,7 +23,7 @@ module KeycloakOauth
       uri = URI.parse(connection.authentication_endpoint)
       Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
         request = Net::HTTP::Post.new(uri)
-        request.set_content_type(CONTENT_TYPE)
+        request.set_content_type(DEFAULT_CONTENT_TYPE)
         request.set_form_data(token_request_params)
         http.request(request)
       end

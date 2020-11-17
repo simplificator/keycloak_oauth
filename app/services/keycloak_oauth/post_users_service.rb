@@ -16,7 +16,7 @@ module KeycloakOauth
     end
 
     def send_request
-      parsed_response(post_users)
+      post_users
     end
 
     private
