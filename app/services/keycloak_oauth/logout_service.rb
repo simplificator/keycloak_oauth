@@ -6,8 +6,8 @@ module KeycloakOauth
       @session = session
     end
 
-    def logout
-      parsed_response(post_logout)
+    def send_request
+      post_logout
     end
 
     private

@@ -49,8 +49,14 @@ RSpec.describe KeycloakOauth::Endpoints do
   end
 
   describe '#logout_endpoint' do
-    it 'returns scoped user_info_endpoint' do
+    it 'returns scoped logout_endpoint' do
       expect(subject.logout_endpoint).to eq('http://domain/auth/realms/first_realm/protocol/openid-connect/logout')
+    end
+  end
+
+  describe '#post_users_endpoint' do
+    it 'returns scoped post_users_endpoint' do
+      expect(subject.post_users_endpoint).to eq('http://domain/auth/admin/realms/first_realm/users')
     end
   end
 end
