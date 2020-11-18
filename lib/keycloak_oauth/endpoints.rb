@@ -24,5 +24,9 @@ module KeycloakOauth
     def post_users_endpoint
       "#{auth_url}/admin/realms/#{realm}/users"
     end
+
+    def put_execute_actions_email_endpoint(user_id)
+      "#{auth_url}/realms/#{realm}/users/#{user_id}/execute-actions-email"
+    end
   end
 end
