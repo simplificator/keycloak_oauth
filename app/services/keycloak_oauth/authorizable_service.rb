@@ -17,6 +17,18 @@ module KeycloakOauth
       @parsed_response_body ||= parse_response_body(http_response)
     end
 
+    def self.uri_with_supported_query_params(url, supported_params, given_params)
+      uri = URI.parse(url)
+
+      query_params = supported_params.inject({}) do |acc, query_param|
+        acc[query_param] = given_params[query_param] if given_params[query_param].present?
+        acc
+      end
+
+      uri.query = URI.encode_www_form(query_params) if query_params.values.any?
+      uri
+    end
+
     private
 
     def parse_response_body(http_response)

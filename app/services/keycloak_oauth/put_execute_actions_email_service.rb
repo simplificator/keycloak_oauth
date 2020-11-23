@@ -24,7 +24,7 @@ module KeycloakOauth
     attr_accessor :access_token, :refresh_token
 
     def put_execute_actions_email
-      uri = uri_with_query_params
+      uri = build_uri
 
       Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
         request = Net::HTTP::Put.new(uri)
@@ -36,16 +36,12 @@ module KeycloakOauth
       end
     end
 
-    def uri_with_query_params
-      uri = URI.parse(connection.put_execute_actions_email_endpoint(user_id))
-
-      query_params = SUPPORTED_QUERY_PARAMS.inject({}) do |acc, query_param|
-        acc[query_param] = options[query_param] if options[query_param].present?
-        acc
-      end
-
-      uri.query = URI.encode_www_form(query_params) if query_params.values.any?
-      uri
+    def build_uri
+      self.class.uri_with_supported_query_params(
+        connection.put_execute_actions_email_endpoint(user_id),
+        SUPPORTED_QUERY_PARAMS,
+        options
+      )
     end
 
     def parse_response_body(http_response)
