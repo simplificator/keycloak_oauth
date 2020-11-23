@@ -31,8 +31,7 @@ module KeycloakOauth
         request.set_content_type(CONTENT_TYPE_JSON)
         request[AUTHORIZATION_HEADER] = "Bearer #{access_token}"
         request.body = actions.to_json
-        req = http.request(request)
-        req
+        http.request(request)
       end
     end
 
