@@ -2,6 +2,7 @@ require 'net/http'
 
 module KeycloakOauth
   class AuthorizableError < StandardError; end
+  class NotFoundError < StandardError; end
 
   class AuthorizableService
     HTTP_SUCCESS_CODES = [Net::HTTPOK, Net::HTTPNoContent, Net::HTTPCreated]
@@ -40,6 +41,8 @@ module KeycloakOauth
           return response['errorMessage']
         elsif response.has_key?('error_description')
           return response['error_description']
+        elsif response.has_key?('error')
+          return response['error']
         end
       when 'String'
         return response

@@ -65,7 +65,7 @@ RSpec.describe KeycloakOauth::Endpoints do
 
     it 'returns scoped put_execute_actions_email_endpoint' do
       expect(subject.put_execute_actions_email_endpoint(user_id))
-        .to eq('http://domain/auth/realms/first_realm/users/abcdefgh/execute-actions-email')
+        .to eq('http://domain/auth/admin/realms/first_realm/users/abcdefgh/execute-actions-email')
     end
   end
 end
