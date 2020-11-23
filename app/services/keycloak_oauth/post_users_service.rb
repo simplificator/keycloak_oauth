@@ -22,7 +22,7 @@ module KeycloakOauth
     attr_accessor :access_token, :refresh_token
 
     def post_users
-      uri = URI.parse(connection.post_users_endpoint)
+      uri = URI.parse(connection.users_endpoint)
       Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
         request = Net::HTTP::Post.new(uri)
         request.set_content_type(CONTENT_TYPE_JSON)
