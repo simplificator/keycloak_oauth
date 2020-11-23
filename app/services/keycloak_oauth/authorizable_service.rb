@@ -25,6 +25,8 @@ module KeycloakOauth
         acc
       end
 
+      log_unsupported_params(given_params.keys - supported_params)
+
       uri.query = URI.encode_www_form(query_params) if query_params.values.any?
       uri
     end
@@ -60,6 +62,12 @@ module KeycloakOauth
         return response
       else
         'Unexpected Keycloak error'
+      end
+    end
+
+    def self.log_unsupported_params(query_params)
+      query_params.each do |query_param|
+        Rails.logger.warn { "Unsupported query param was passed in: #{query_param}" }
       end
     end
   end
