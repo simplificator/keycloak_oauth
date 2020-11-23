@@ -5,7 +5,8 @@ module KeycloakOauth
 
   class AuthorizableService
     HTTP_SUCCESS_CODES = [Net::HTTPOK, Net::HTTPNoContent, Net::HTTPCreated]
-    DEFAULT_CONTENT_TYPE = 'application/x-www-form-urlencoded'.freeze
+    CONTENT_TYPE_X_WWW_FORM_URLENCODED = 'application/x-www-form-urlencoded'.freeze
+    CONTENT_TYPE_JSON = 'application/json'.freeze
     AUTHORIZATION_HEADER = 'Authorization'.freeze
 
     attr_reader :http_response, :parsed_response_body
