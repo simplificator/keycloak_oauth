@@ -54,9 +54,18 @@ RSpec.describe KeycloakOauth::Endpoints do
     end
   end
 
-  describe '#post_users_endpoint' do
-    it 'returns scoped post_users_endpoint' do
-      expect(subject.post_users_endpoint).to eq('http://domain/auth/admin/realms/first_realm/users')
+  describe '#users_endpoint' do
+    it 'returns scoped users_endpoint' do
+      expect(subject.users_endpoint).to eq('http://domain/auth/admin/realms/first_realm/users')
+    end
+  end
+
+  describe '#put_execute_actions_email_endpoint' do
+    let(:user_id) { 'abcdefgh' }
+
+    it 'returns scoped put_execute_actions_email_endpoint' do
+      expect(subject.put_execute_actions_email_endpoint(user_id))
+        .to eq('http://domain/auth/admin/realms/first_realm/users/abcdefgh/execute-actions-email')
     end
   end
 end

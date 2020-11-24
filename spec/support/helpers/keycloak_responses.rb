@@ -33,5 +33,14 @@ module Helpers
     def keycloak_invalid_token_request_error_body
       "{\"error\":\"invalid_token\",\"error_description\":\"Token invalid: Failed to parse JWT\"}"
     end
+
+    def keycloak_users_request_body
+      "[{\"id\":\"fd62fb4e-04e1-4660-a961-f4592b95bb45\",\"createdTimestamp\":1606123457175" \
+      ",\"username\":\"user_A\",\"enabled\":true,\"totp\":false,\"" \
+      "emailVerified\":false,\"firstName\":\"User A First Name\",\"lastName\":" \
+      "\"User A Last Name\",\"email\":\"user_A@example.com\",\"disableableCredentialTypes\":[]" \
+      ",\"requiredActions\":[],\"notBefore\":0,\"access\":{\"manageGroupMembership\":true" \
+      ",\"view\":true,\"mapRoles\":true,\"impersonate\":false,\"manage\":true}}]"
+    end
   end
 end

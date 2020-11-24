@@ -2,10 +2,12 @@ require 'net/http'
 
 module KeycloakOauth
   class AuthorizableError < StandardError; end
+  class NotFoundError < StandardError; end
 
   class AuthorizableService
     HTTP_SUCCESS_CODES = [Net::HTTPOK, Net::HTTPNoContent, Net::HTTPCreated]
-    DEFAULT_CONTENT_TYPE = 'application/x-www-form-urlencoded'.freeze
+    CONTENT_TYPE_X_WWW_FORM_URLENCODED = 'application/x-www-form-urlencoded'.freeze
+    CONTENT_TYPE_JSON = 'application/json'.freeze
     AUTHORIZATION_HEADER = 'Authorization'.freeze
 
     attr_reader :http_response, :parsed_response_body
@@ -13,6 +15,20 @@ module KeycloakOauth
     def perform
       @http_response = send_request
       @parsed_response_body ||= parse_response_body(http_response)
+    end
+
+    def self.uri_with_supported_query_params(url, supported_params, given_params)
+      uri = URI.parse(url)
+
+      query_params = supported_params.inject({}) do |acc, query_param|
+        acc[query_param] = given_params[query_param] if given_params[query_param].present?
+        acc
+      end
+
+      log_unsupported_params(given_params.keys - supported_params)
+
+      uri.query = URI.encode_www_form(query_params) if query_params.values.any?
+      uri
     end
 
     private
@@ -39,11 +55,19 @@ module KeycloakOauth
           return response['errorMessage']
         elsif response.has_key?('error_description')
           return response['error_description']
+        elsif response.has_key?('error')
+          return response['error']
         end
       when 'String'
         return response
       else
         'Unexpected Keycloak error'
+      end
+    end
+
+    def self.log_unsupported_params(query_params)
+      query_params.each do |query_param|
+        Rails.logger.warn { "Unsupported query param was passed in: #{query_param}" }
       end
     end
   end

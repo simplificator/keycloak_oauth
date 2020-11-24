@@ -14,7 +14,7 @@ RSpec.describe KeycloakOauth::UserInfoRetrievalService do
     subject { service.perform }
 
     context 'when the user information can be retrieved from Keycloak' do
-      it 'retrieves authentication information and stores it in session' do
+      it 'retrieves user information' do
         stub_request(:get, 'http://domain/auth/realms/first_realm/protocol/openid-connect/userinfo').
           to_return(body: keycloak_user_info_request_body)
 
