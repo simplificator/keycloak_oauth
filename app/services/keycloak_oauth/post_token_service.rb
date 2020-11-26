@@ -6,8 +6,10 @@ module KeycloakOauth
 
     attr_reader :request_params, :connection
 
-    def initialize(connection:, request_params:)
+    def initialize(connection:, access_token: nil, refresh_token: nil, request_params:)
       @connection = connection
+      @access_token = access_token
+      @refresh_token = refresh_token
       @request_params = request_params
     end
 
@@ -17,12 +19,13 @@ module KeycloakOauth
 
     private
 
-    attr_reader :code, :redirect_uri
+    attr_reader :code, :redirect_uri, :access_token, :refresh_token
 
     def post_token
       uri = URI.parse(connection.authentication_endpoint)
       Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
         request = Net::HTTP::Post.new(uri)
+        request[AUTHORIZATION_HEADER] = "Bearer #{access_token}" if access_token.present?
         request.set_content_type(CONTENT_TYPE_X_WWW_FORM_URLENCODED)
         request.set_form_data(token_request_params)
         http.request(request)

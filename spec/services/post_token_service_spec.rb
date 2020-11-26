@@ -10,7 +10,7 @@ RSpec.describe KeycloakOauth::PostTokenService do
       request_params: dummy_request_params
     )
   end
-  
+
   describe '#send_request' do
     let(:connection) { KeycloakOauth.connection }
 
@@ -93,6 +93,38 @@ RSpec.describe KeycloakOauth::PostTokenService do
             'token_type' => 'bearer',
             'not-before-policy' => 0,
             'session_state' => 'e4567259-6c07-4dd1-800b-d01692ed2634',
+            'scope' => "profile email"
+          }
+        )
+      end
+    end
+
+    context 'when an access token is passed in' do
+      let(:service) do
+        KeycloakOauth::PostTokenService.new(
+          connection: connection,
+          access_token: 'some_access_token',
+          request_params: dummy_request_params
+        )
+      end
+
+      it 'sets the Authorization header' do
+        stub_request(:post, 'http://domain/auth/realms/first_realm/protocol/openid-connect/token')
+          .with(headers: { 'Authorization' => 'Bearer some_access_token'})
+          .to_return(body: keycloak_tokens_request_body)
+
+        subject
+
+        expect(service.http_response.code_type).to eq(Net::HTTPOK)
+        expect(service.parsed_response_body).to eq(
+          {
+            'access_token' => access_token,
+            'expires_in' => 32765,
+            'refresh_expires_in' => 1800,
+            'refresh_token' => refresh_token,
+            'token_type' => 'bearer',
+            'not-before-policy' => 0,
+            'session_state' => dummy_request_params[:session_state],
             'scope' => "profile email"
           }
         )
