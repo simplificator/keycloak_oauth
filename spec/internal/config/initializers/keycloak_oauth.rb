@@ -1,3 +1,5 @@
+require_relative '../../app/controllers/concerns/keycloak_oauth_callbacks'
+
 KeycloakOauth.configure do |config|
   config.auth_url = 'http://domain/auth'
   config.realm = 'first_realm'
