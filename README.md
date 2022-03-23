@@ -62,7 +62,7 @@ If you need the user to be redirected to something other than the root path, you
 3. In the method, perform whatever logic you need to return the right path e.g.
 ```ruby
 def after_sign_in_path
-  my_custom_path
+  main_app.my_custom_path
 end
 ```
 4. Tell the gem where you've overridden the paths by setting the following config in your configuration initializer file:

@@ -6,7 +6,7 @@ module KeycloakOauthCallbacks
   end
 
   def after_sign_in_path(request)
-    request.params[:show_first_page].present? ? first_page_path : second_page_path
+    request.params[:show_first_page].present? ? main_app.first_page_path : main_app.second_page_path
   end
 
   def map_authenticatable(_request)
