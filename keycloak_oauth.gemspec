@@ -24,6 +24,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "rails", ">= 6.0"
+  spec.add_development_dependency 'activerecord-session_store'
   spec.add_development_dependency 'appraisal'
   spec.add_development_dependency 'combustion'
   spec.add_development_dependency 'rspec-rails'
