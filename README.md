@@ -50,7 +50,7 @@ in `config/environments/development.rb`:
 config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 ```
 
-You can allow the user to log in with Keycloak by adding adding a link that points to `KeycloakOauth.connection.authorization_endpoint`:
+You can allow the user to log in with Keycloak by adding a link that points to `KeycloakOauth.connection.authorization_endpoint`:
 e.g.
 `<%= link_to 'Login with Keycloak', KeycloakOauth.connection.authorization_endpoint(options: { redirect_uri: keycloak_oauth.oauth2_url }) %>`
 
