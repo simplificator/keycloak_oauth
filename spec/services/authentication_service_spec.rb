@@ -20,10 +20,15 @@ RSpec.describe KeycloakOauth::AuthenticationService do
           to_return(body: keycloak_authorization_code_body)
 
         service = subject
-        service.authenticate
+        Timecop.freeze(Time.new(2022, 1, 1, 0, 0, 0, "+01:00")) do
+          service.authenticate
+        end
 
         expect(service.session.access_token).to eq(access_token)
         expect(service.session.refresh_token).to eq(refresh_token)
+
+        expect(service.session.access_token_expires_in).to eq(Time.new(2022, 1, 1, 9, 6, 5, "+01:00"))
+        expect(service.session.refresh_token_expires_in).to eq(Time.new(2022, 1, 1, 0, 30, 0, "+01:00"))
       end
     end
 
@@ -49,11 +54,3 @@ RSpec.describe KeycloakOauth::AuthenticationService do
     }
   end
 end
-
-
-
-
-
-
-
-
