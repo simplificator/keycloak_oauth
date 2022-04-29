@@ -22,6 +22,12 @@ Or install it yourself as:
 
 ### Using `keycloak_oauth` in a Ruby on Rails app
 
+Unless you plan to overwrite the oauth callback controller (see further below), mount the Rails engine into your application by specifying the following in `config/routes.rb`
+
+```ruby
+mount KeycloakOauth::Engine => "/keycloak_oauth"
+```
+
 The configuration must be defined in the app by initialising the relevant attributes within a configuration block. For example, you could add an initializer script called `keycloak_oauth.rb` holding the following code:
 
 ```ruby
@@ -36,13 +42,22 @@ end
 This then allows you to access the `KeycloakOauth` APIs:
 `KeycloakOauth.connection.authorization_endpoint`
 
-You can allow the user to log in with Keycloak by adding adding a link that points to `KeycloakOauth.connection.authorization_endpoint`:
+Ensure you have `default_url_options` set. Here
+is an example of `default_url_options` appropriate for a development environment
+in `config/environments/development.rb`:
+
+```ruby
+config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+```
+
+You can allow the user to log in with Keycloak by adding a link that points to `KeycloakOauth.connection.authorization_endpoint`:
 e.g.
-`<%= link_to 'Login with Keycloak', KeycloakOauth.connection.authorization_endpoint %>`
+`<%= link_to 'Login with Keycloak', KeycloakOauth.connection.authorization_endpoint(options: { redirect_uri: keycloak_oauth.oauth2_url }) %>`
 
-Once authentication is performed, the access and refresh tokens are stored in the session and can be used in your app as wished.
+Once authentication is performed, the access and refresh tokens are stored in the session and can be used in your app as wished. As the session can become larger than we can store in a cookie (`CookieOverflow` exception), we recommend to use [activerecord-session_store](https://github.com/rails/activerecord-session_store).
 
-***Customising redirect URIs***
+### Customising redirect URIs
+
 There are situations where you would want to customise the oauth2 route (e.g. to use a localised version of the callback URL).
 In this case, you can do the following:
 - add a controller to your app: e.g. `CallbackOverrides`

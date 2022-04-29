@@ -24,8 +24,6 @@ module KeycloakOauth
     def map_authenticatable_if_implemented(request)
       if self.class.method_defined?(:map_authenticatable)
         map_authenticatable(request)
-      else
-        raise NotImplementedError.new('User mapping must be handled by the host app. See README for more information.')
       end
     end
 
@@ -36,7 +34,7 @@ module KeycloakOauth
       main_app.url_for(only_path: false, overwrite_params: nil)
     rescue ActionController::UrlGenerationError
       # If the host app does not override the oauth2 path, use the engine's path.
-      oauth2_path
+      oauth2_url
     end
   end
 end

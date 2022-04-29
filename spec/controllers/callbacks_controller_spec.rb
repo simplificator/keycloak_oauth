@@ -36,18 +36,5 @@ RSpec.describe KeycloakOauth::CallbacksController, type: :controller do
         expect(subject).to redirect_to('/')
       end
     end
-
-    context 'when the host app does not implement map_authenticatable' do
-      it 'redirects to root path' do
-        stub_request(:post, 'http://domain/auth/realms/first_realm/protocol/openid-connect/token').
-          to_return(body: keycloak_tokens_request_body)
-        stub_request(:get, 'http://domain/auth/realms/first_realm/protocol/openid-connect/userinfo').
-          to_return(body: keycloak_user_info_request_body)
-
-        allow(described_class).to receive(:method_defined?).with(:map_authenticatable).and_return(false)
-
-        expect{ subject }.to raise_error(NotImplementedError)
-      end
-    end
   end
 end
