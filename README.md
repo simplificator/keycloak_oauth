@@ -52,7 +52,7 @@ config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
 You can allow the user to log in with Keycloak by adding adding a link that points to `KeycloakOauth.connection.authorization_endpoint`:
 e.g.
-`<%= link_to 'Login with Keycloak', KeycloakOauth.connection.authorization_endpoint %>`
+`<%= link_to 'Login with Keycloak', KeycloakOauth.connection.authorization_endpoint(options: { redirect_uri: keycloak_oauth.oauth2_url }) %>`
 
 Once authentication is performed, the access and refresh tokens are stored in the session and can be used in your app as wished. As the session can become larger than we can store in a cookie (`CookieOverflow` exception), we recommend to use [activerecord-session_store](https://github.com/rails/activerecord-session_store).
 
