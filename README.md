@@ -42,6 +42,14 @@ end
 This then allows you to access the `KeycloakOauth` APIs:
 `KeycloakOauth.connection.authorization_endpoint`
 
+Ensure you have `default_url_options` set. Here
+is an example of `default_url_options` appropriate for a development environment
+in `config/environments/development.rb`:
+
+```ruby
+config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+```
+
 You can allow the user to log in with Keycloak by adding adding a link that points to `KeycloakOauth.connection.authorization_endpoint`:
 e.g.
 `<%= link_to 'Login with Keycloak', KeycloakOauth.connection.authorization_endpoint %>`
