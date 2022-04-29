@@ -24,8 +24,6 @@ module KeycloakOauth
     def map_authenticatable_if_implemented(request)
       if self.class.method_defined?(:map_authenticatable)
         map_authenticatable(request)
-      else
-        raise NotImplementedError.new('User mapping must be handled by the host app. See README for more information.')
       end
     end
 
