@@ -31,8 +31,8 @@ module KeycloakOauth
       session[:access_token] = response_hash[ACCESS_TOKEN_KEY]
       session[:refresh_token] = response_hash[REFRESH_TOKEN_KEY]
 
-      session[:access_token_expires_in] = request_time + response_hash[ACCESS_TOKEN_EXPIRES_IN].to_i.seconds
-      session[:refresh_token_expires_in] = request_time + response_hash[REFRESH_TOKEN_EXPIRES_IN].to_i.seconds
+      session[:access_token_expires_at] = request_time + response_hash[ACCESS_TOKEN_EXPIRES_IN].to_i.seconds
+      session[:refresh_token_expires_at] = request_time + response_hash[REFRESH_TOKEN_EXPIRES_IN].to_i.seconds
     end
   end
 end

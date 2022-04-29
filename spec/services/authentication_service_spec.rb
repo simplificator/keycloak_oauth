@@ -27,8 +27,8 @@ RSpec.describe KeycloakOauth::AuthenticationService do
         expect(service.session.access_token).to eq(access_token)
         expect(service.session.refresh_token).to eq(refresh_token)
 
-        expect(service.session.access_token_expires_in).to eq(Time.new(2022, 1, 1, 9, 6, 5, "+01:00"))
-        expect(service.session.refresh_token_expires_in).to eq(Time.new(2022, 1, 1, 0, 30, 0, "+01:00"))
+        expect(service.session.access_token_expires_at).to eq(Time.new(2022, 1, 1, 9, 6, 5, "+01:00"))
+        expect(service.session.refresh_token_expires_at).to eq(Time.new(2022, 1, 1, 0, 30, 0, "+01:00"))
       end
     end
 
