@@ -32,7 +32,7 @@ RSpec.describe KeycloakOauth::PostAuthorizationCodeService do
         expect(service.parsed_response_body).to eq(
           {
             'access_token' => access_token,
-            'expires_in' => 60,
+            'expires_in' => 32765,
             'refresh_expires_in' => 1800,
             'refresh_token' => refresh_token,
             'token_type' => 'Bearer',
@@ -89,7 +89,7 @@ RSpec.describe KeycloakOauth::PostAuthorizationCodeService do
         expect(service.parsed_response_body).to eq(
           {
             'access_token' => access_token,
-            'expires_in' => 60,
+            'expires_in' => 32765,
             'refresh_expires_in' => 1800,
             'refresh_token' => refresh_token,
             'token_type' => 'Bearer',

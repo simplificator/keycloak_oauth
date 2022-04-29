@@ -48,7 +48,7 @@ module Helpers
     end
 
     def keycloak_refresh_token_request_body
-      "{\"access_token\":\"#{access_token}\",\"expires_in\":60,\"refresh_expires_in\":1800,\"" \
+      "{\"access_token\":\"#{access_token}\",\"expires_in\":32765,\"refresh_expires_in\":1800,\"" \
       "refresh_token\":\"#{refresh_token}\",\"token_type\":\"Bearer\",\"not-before-policy\":0,\"" \
       "session_state\":\"e4567259-6c07-4dd1-800b-d01692ed2634\",\"scope\":\"email profile\"}"
     end
