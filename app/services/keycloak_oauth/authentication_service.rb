@@ -11,7 +11,7 @@ module KeycloakOauth
     end
 
     def authenticate
-      post_token_service = KeycloakOauth::PostTokenService.new(
+      post_token_service = KeycloakOauth::PostAuthorizationCodeService.new(
         connection: KeycloakOauth.connection,
         request_params: authentication_params
       )

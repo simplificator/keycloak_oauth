@@ -1,7 +1,7 @@
 require 'net/http'
 
 module KeycloakOauth
-  class PostTokenService < KeycloakOauth::AuthorizableService
+  class PostAuthorizationCodeService < KeycloakOauth::AuthorizableService
     DEFAULT_GRANT_TYPE = 'authorization_code'.freeze
 
     attr_reader :request_params, :connection

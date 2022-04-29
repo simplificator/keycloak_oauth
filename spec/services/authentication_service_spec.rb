@@ -17,7 +17,7 @@ RSpec.describe KeycloakOauth::AuthenticationService do
 
       it 'retrieves authentication information and stores it in session' do
         stub_request(:post, 'http://domain/auth/realms/first_realm/protocol/openid-connect/token').
-          to_return(body: keycloak_tokens_request_body)
+          to_return(body: keycloak_authorization_code_body)
 
         service = subject
         service.authenticate

@@ -12,7 +12,7 @@ RSpec.describe KeycloakOauth::CallbacksController, type: :controller do
     context 'when the host app overwrites after_sign_in_path' do
       it 'maps user and redirects to the specified path' do
         stub_request(:post, 'http://domain/auth/realms/first_realm/protocol/openid-connect/token').
-          to_return(body: keycloak_tokens_request_body)
+          to_return(body: keycloak_authorization_code_body)
         stub_request(:get, 'http://domain/auth/realms/first_realm/protocol/openid-connect/userinfo').
           to_return(body: keycloak_user_info_request_body)
 
@@ -26,7 +26,7 @@ RSpec.describe KeycloakOauth::CallbacksController, type: :controller do
     context 'when the host app does not overwrite after_sign_in_path' do
       it 'redirects to root path' do
         stub_request(:post, 'http://domain/auth/realms/first_realm/protocol/openid-connect/token').
-          to_return(body: keycloak_tokens_request_body)
+          to_return(body: keycloak_authorization_code_body)
         stub_request(:get, 'http://domain/auth/realms/first_realm/protocol/openid-connect/userinfo').
           to_return(body: keycloak_user_info_request_body)
 
