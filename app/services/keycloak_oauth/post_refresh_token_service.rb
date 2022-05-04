@@ -4,8 +4,6 @@ module KeycloakOauth
   class PostRefreshTokenService < KeycloakOauth::AuthorizableService
     DEFAULT_GRANT_TYPE = 'refresh_token'.freeze
 
-    attr_reader :request_params, :connection
-
     def initialize(connection:, refresh_token:)
       @connection = connection
       @refresh_token = refresh_token
@@ -34,7 +32,7 @@ module KeycloakOauth
         client_id: connection.client_id,
         client_secret: connection.client_secret,
         grant_type: DEFAULT_GRANT_TYPE,
-        refresh_token: @refresh_token
+        refresh_token: refresh_token
       }
     end
   end

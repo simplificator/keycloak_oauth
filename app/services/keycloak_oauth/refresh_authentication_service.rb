@@ -16,7 +16,7 @@ module KeycloakOauth
 
       post_refresh_token_service = KeycloakOauth::PostRefreshTokenService.new(
         connection: KeycloakOauth.connection,
-        refresh_token: @session[:refresh_token]
+        refresh_token: session[:refresh_token]
       )
       post_refresh_token_service.perform
       update_session_information(post_refresh_token_service, request_time)
