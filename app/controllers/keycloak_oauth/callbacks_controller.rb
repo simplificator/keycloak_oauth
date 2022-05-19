@@ -12,7 +12,7 @@ module KeycloakOauth
       authentication_service.authenticate
       map_authenticatable_if_implemented(session)
 
-      redirect_to self.class.method_defined?(:after_sign_in_path) ? after_sign_in_path(request) : '/'
+      redirect_to self.class.method_defined?(:after_sign_in_path) ? after_sign_in_path(request) : main_app.root_path
     end
 
     private
