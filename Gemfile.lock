@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    keycloak_oauth (1.1.0)
+    keycloak_oauth (2.0.0)
       rails (>= 6.0)
 
 GEM
@@ -191,4 +191,4 @@ DEPENDENCIES
   webmock
 
 BUNDLED WITH
-   2.2.32
+   2.3.13
