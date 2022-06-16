@@ -1,9 +1,6 @@
 require 'net/http'
 
 module KeycloakOauth
-  class AuthorizableError < StandardError; end
-  class NotFoundError < StandardError; end
-
   class AuthorizableService
     HTTP_SUCCESS_CODES = [Net::HTTPOK, Net::HTTPNoContent, Net::HTTPCreated]
     CONTENT_TYPE_X_WWW_FORM_URLENCODED = 'application/x-www-form-urlencoded'.freeze
