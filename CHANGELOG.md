@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.1] - 2022-06-16
+
+### Changed
+
+- Extracted `KeycloakOauth::NotFoundError` and `KeycloakOauth::AuthorizableError` into separate file. When using Zeitwerk code loader in your main application, it was sometimes unable to find these classes.
+
 ## [2.0.0] - 2022-06-14
 
 ### Breaking
