@@ -56,6 +56,20 @@ e.g.
 
 Once authentication is performed, the access and refresh tokens are stored in the session and can be used in your app as wished. As the session can become larger than we can store in a cookie (`CookieOverflow` exception), we recommend to use [activerecord-session_store](https://github.com/rails/activerecord-session_store).
 
+If you are calling Keycloak in your `ApplicationController`, for exmaple, as a callback:
+
+```ruby
+  before_action :authenticate_with_keycloak
+
+  def authenticate_with_keycloak
+    unless session&.dig(:refresh_token).present? && session&.dig(:access_token).present?
+      redirect_to KeycloakOauth.connection.authorization_endpoint(options: { redirect_uri: keycloak_oauth.oauth2_url })
+    end
+  end
+```
+
+you may get into infinite loop issue, because  `KeycloakOauth::CallbacksController` also inherits from the `ApplicationController` and keeps redirecting to authentication endpoint. As a workaround you could call the Keycloak endpoint from the `BaseController`, that would inherit from `ApplicationController`.
+
 ### Customising redirect URIs
 
 There are situations where you would want to customise the oauth2 route (e.g. to use a localised version of the callback URL).
@@ -96,7 +110,7 @@ See here an example of retrieving the user information and saving the email addr
 
 ```ruby
 def map_authenticatable(_request)
-  service = KeycloakOauth.connection.get_user_information(access_token: session[:access_token])
+  service = KeycloakOauth.connection.get_user_information(access_token: session[:access_token], refresh_token: session[:refresh_token])
   session[:user_email_address] = service.user_information['email']
 end
 ```
