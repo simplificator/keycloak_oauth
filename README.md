@@ -68,7 +68,7 @@ If you are calling Keycloak in your `ApplicationController`, for example, as a c
   end
 ```
 
-you may get into infinite loop issue, because  `KeycloakOauth::CallbacksController` also inherits from the `ApplicationController` and keeps redirecting to authentication endpoint. As a workaround you could call the Keycloak endpoint from the `BaseController`, that would inherit from `ApplicationController`.
+you may get into infinite loop issue, because  `KeycloakOauth::CallbacksController` also inherits from the `ApplicationController` and keeps redirecting to authentication endpoint. As a workaround, create a `BaseController` from which the controllers in your application inherit and move the `authenticate` callback to it.
 
 ### Customising redirect URIs
 
