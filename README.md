@@ -56,7 +56,7 @@ e.g.
 
 Once authentication is performed, the access and refresh tokens are stored in the session and can be used in your app as wished. As the session can become larger than we can store in a cookie (`CookieOverflow` exception), we recommend to use [activerecord-session_store](https://github.com/rails/activerecord-session_store).
 
-If you are calling Keycloak in your `ApplicationController`, for exmaple, as a callback:
+If you are calling Keycloak in your `ApplicationController`, for example, as a callback:
 
 ```ruby
   before_action :authenticate_with_keycloak
