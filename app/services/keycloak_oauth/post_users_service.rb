@@ -1,8 +1,8 @@
 require 'net/http'
+require 'keycloak_oauth/authorizable_error'
+require 'keycloak_oauth/duplication_error'
 
 module KeycloakOauth
-  class DuplicationError < StandardError; end
-
   class PostUsersService < KeycloakOauth::AuthorizableService
     attr_reader :request_params, :connection, :user_params
 

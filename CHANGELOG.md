@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support for Ruby 3.2
 - Support for Rails 7.1
 
+### Changed
+
+- Extracted `KeycloakOauth::DuplicationError` into a separate file to please the Zeitwerk loader.
+
 ## [2.0.1] - 2022-06-16
 
 ### Changed
