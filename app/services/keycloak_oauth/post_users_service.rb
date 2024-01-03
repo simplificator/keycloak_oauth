@@ -1,6 +1,7 @@
 require 'net/http'
-require 'keycloak_oauth/authorizable_error'
-require 'keycloak_oauth/duplication_error'
+
+require_relative 'authorizable_error'
+require_relative 'not_found_error'
 
 module KeycloakOauth
   class PostUsersService < KeycloakOauth::AuthorizableService

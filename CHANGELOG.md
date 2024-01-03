@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Extracted `KeycloakOauth::DuplicationError` into a separate file to please the Zeitwerk loader.
+- Use `require_relative` for load gem-internal files.
 
 ## [2.0.1] - 2022-06-16
 
