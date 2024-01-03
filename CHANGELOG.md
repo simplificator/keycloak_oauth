@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Support for Ruby 3.2
+- Support for Ruby 3.2 and 3.3
 - Support for Rails 7.1
 
 ### Changed
