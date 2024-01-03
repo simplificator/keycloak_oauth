@@ -1,4 +1,4 @@
-require 'keycloak_oauth/endpoints'
+require_relative 'endpoints'
 
 module KeycloakOauth
   class Connection

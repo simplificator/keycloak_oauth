@@ -1,6 +1,7 @@
-require 'keycloak_oauth/authorizable_error'
-require 'keycloak_oauth/not_found_error'
 require 'net/http'
+
+require_relative "authorizable_error"
+require_relative "not_found_error"
 
 module KeycloakOauth
   class AuthorizableService
