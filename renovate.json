@@ -2,5 +2,13 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "github>simplificator/renovate-preset"
+  ],
+  "packageRules": [
+    {
+      "matchPackageNames": [
+        "bundler"
+      ],
+      "allowedVersions": "<2.5"
+    }
   ]
 }
