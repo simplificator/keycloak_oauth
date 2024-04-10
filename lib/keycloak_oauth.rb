@@ -1,7 +1,7 @@
-require_relative 'keycloak_oauth/version'
-require_relative 'keycloak_oauth/configuration'
-require_relative 'keycloak_oauth/connection'
-require_relative 'keycloak_oauth/engine'
+require_relative "keycloak_oauth/version"
+require_relative "keycloak_oauth/configuration"
+require_relative "keycloak_oauth/connection"
+require_relative "keycloak_oauth/engine"
 
 module KeycloakOauth
   def self.configure
@@ -18,7 +18,8 @@ module KeycloakOauth
       realm: configuration.realm,
       client_id: configuration.client_id,
       client_secret: configuration.client_secret,
-      callback_module: configuration.callback_module
+      callback_module: configuration.callback_module,
+      scope: configuration.scope,
     )
   end
 end

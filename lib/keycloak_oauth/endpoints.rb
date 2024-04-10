@@ -1,11 +1,12 @@
 module KeycloakOauth
   module Endpoints
-    DEFAULT_RESPONSE_TYPE = 'code'.freeze
+    DEFAULT_RESPONSE_TYPE = "code".freeze
 
     def authorization_endpoint(options: {})
       endpoint = "#{auth_url}/realms/#{realm}/protocol/openid-connect/auth?client_id=#{client_id}"
       endpoint += "&response_type=#{options[:response_type] || DEFAULT_RESPONSE_TYPE}"
       endpoint += "&redirect_uri=#{options[:redirect_uri]}" if options[:redirect_uri].present?
+      endpoint += "&scope=#{scope}"
       endpoint
     end
 
